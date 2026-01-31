@@ -1,0 +1,20 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: launchrail-demo-dev
+spec:
+  project: default
+  source:
+    repoURL: https://github.com/<you>/launchrail-demo
+    targetRevision: main
+    path: helm/launchrail-demo
+    helm:
+      valueFiles:
+        - https://raw.githubusercontent.com/<you>/launchrail-environments/main/dev/launchrail-demo/values.yaml
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: launchrail-demo
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
